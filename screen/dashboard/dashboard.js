@@ -37,7 +37,6 @@ export default class dashboard extends Component {
 
                 <View>
                     <Row size={12} style={{ marginTop: 20 }}>
-                        
                         <Col sm={4} style={{ alignItems: 'center' }}>
                             <TouchableOpacity onPress={ () => this.props.navigation.navigate('registrasi')}>
                                 <Image
@@ -48,11 +47,13 @@ export default class dashboard extends Component {
                             </TouchableOpacity>
                         </Col>
                         <Col sm={4} style={{ alignItems: 'center' }}>
-                            <Image
-                                source={require('../../img/daftaritem.png')}
-                                style={styles.icon}
-                            />
-                            <Text style={{ marginTop: 15 }}>DAFTAR ITEM</Text>
+                            <TouchableOpacity onPress={ () => this.props.navigation.navigate('user_list')}>
+                                <Image
+                                    source={require('../../img/daftaritem.png')}
+                                    style={styles.icon}
+                                />
+                                <Text style={{ marginTop: 15 }}>DAFTAR USER</Text>
+                            </TouchableOpacity>
                         </Col>
                     </Row>   
                 </View>

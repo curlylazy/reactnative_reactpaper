@@ -11,7 +11,33 @@ import AppConfig from "../../app/appconfig";
 import ReturnModel from "../../app/returnmodel";
 import AlertDialog from "../../app/alertdialog";
 
-export default class registrasi extends Component {
+
+// function user_ae({ route, navigation }) {
+//     /* 2. Get the param */
+//     const { save_mode, otherParam } = route.params;
+
+//     return (
+//       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+//         <Text>Details Screen</Text>
+//         <Text>itemId: {JSON.stringify(save_mode)}</Text>
+//         <Text>otherParam: {JSON.stringify(otherParam)}</Text>
+//         <Button
+//           title="Go to Details... again"
+//           onPress={() =>
+//             navigation.push('Details', {
+//               itemId: Math.floor(Math.random() * 100),
+//             })
+//           }
+//         />
+//         <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
+//         <Button title="Go back" onPress={() => navigation.goBack()} />
+//       </View>
+//     );
+//   }
+
+//   export default user_ae;
+
+export default class user_ae extends Component {
 
     constructor(props) {
         super(props);
@@ -20,19 +46,46 @@ export default class registrasi extends Component {
         this.AlertDialog = new AlertDialog();
 
         this.state = {
-            username: "iwan",
-            password: "12345",
-            nama: "Wayan Styawan Saputra",
+
+            save_mode: "",
+            judul_page: "",
+
+            username: "",
+            password: "",
+            nama: "",
             alamat: "",
             telepon: "",
             email: "",
-            jk: "",
+            jk: "P",
         };
-
     }
     
+    componentDidMount() {
+
+        this.state.save_mode = this.props.route.params.save_mode;
+
+        if(this.state.save_mode == "**new")
+            this.state.judul_page = "Tambah User";
+        else
+            this.state.judul_page = "Edit User";
+
+        this.setState({judul_page : this.state.judul_page});
+    }
+
     saveData = async () =>
     {
+        if(this.state.username == "")
+        {
+            Alert.alert("KESALAHAN", "[username] masih kosong.");
+            return
+        }
+
+        else if(this.state.password == "")
+        {
+            Alert.alert("KESALAHAN", "[password] masih kosong.");
+            return
+        }
+
         var confirm = await this.AlertDialog.alertConfirm("KONFIRMASI", "submit data registrasi sekarang ?.");
         if(confirm)
         {
@@ -56,7 +109,7 @@ export default class registrasi extends Component {
     
             var token = "";
             var postdata = ijson.generateJson();
-            var res = await this.ih.sendData(AppConfig.APP_URL, "user/registrasi", token, postdata);
+            var res = await this.ih.sendData(AppConfig.APP_URL, "user/tambah", token, postdata);
             var resdata = IJson.parse(res);
             
             console.log(postdata);
@@ -89,8 +142,8 @@ export default class registrasi extends Component {
                     backgroundColor="#a35709" />
 
                 <Appbar.Header>
-                    <Appbar.BackAction onPress={() => this.props.navigation.navigate('dashboard')} />
-                    <Appbar.Content title="Registrasi" />
+                    <Appbar.BackAction onPress={() => this.props.navigation.navigate('user_list')} />
+                    <Appbar.Content title={this.state.judul_page} />
                 </Appbar.Header>
                 
                 <View>
