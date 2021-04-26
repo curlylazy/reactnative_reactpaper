@@ -64,7 +64,6 @@ export default class user_ae extends Component {
     componentDidMount() {
 
         this.state.save_mode = this.props.route.params.save_mode;
-        this.state.save_mode = this.props.navigation.getParam(save_mode, "");
 
         if(this.state.save_mode == "**new")
             this.state.judul_page = "Tambah User";

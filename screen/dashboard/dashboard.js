@@ -22,17 +22,17 @@ export default class dashboard extends Component {
         return (
             <View>
                 <ImageBackground
-                    source={require('../../img/bg_3.jpg')}
+                    source={require('../../img/bg_4.jpg')}
                     imageStyle={{resizeMode: 'stretch'}}
                     style={styles.imgBackground}
                 >
                     <Image
-                        source={require('../../img/logoraw.png')}
+                        source={require('../../img/logoraw_2.png')}
                         style={styles.imgLogo}
                     />
 
-                    <Text style={styles.fontHeader}>BENGKEL ONLINE</Text>
-                    <Text style={styles.fontSubHeader}>welcome to bengkel app</Text>
+                    <Text style={styles.fontHeader}>UNDANGAN ONLINE</Text>
+                    <Text style={styles.fontSubHeader}>selamat datang di undangan online</Text>
                 </ImageBackground>
 
                 <View>
@@ -91,7 +91,8 @@ const styles = StyleSheet.create({
 
     imgLogo :{
         marginTop: 20,
-        height: '50%', 
-        width: '50%'
+        resizeMode: 'stretch',
+        height: 120, 
+        width: 120
     }
 });
