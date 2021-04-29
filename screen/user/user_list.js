@@ -19,6 +19,8 @@ import AppConfig from "../../app/appconfig";
 import ReturnModel from "../../app/returnmodel";
 import AlertDialog from "../../app/alertdialog";
 
+import user_list_service from "../../service/user/user_list_service";
+
 export default class user_list extends Component {
 
     constructor(props) {
@@ -26,10 +28,12 @@ export default class user_list extends Component {
 
         this.ih = new iHttpRequest();
         this.AlertDialog = new AlertDialog();
+        this.userService = new user_list_service();
 
         this.state = {
             katakunci: "",
             pageNumber: 1,
+            totalData: 0,
             datalist: [],
             selectedRow: [],
 
@@ -37,7 +41,6 @@ export default class user_list extends Component {
             isLoading: true,
             isShowPopup: false,
         };
-
     }
     
     componentDidMount = () => {
@@ -48,42 +51,18 @@ export default class user_list extends Component {
     {
         this.setState({ isLoading : true });
 
-        var result = new ReturnModel();
+        this.userService.KataKunci = this.state.katakunci;
+        var res = await this.userService.requestData(this.state.pageNumber);
 
-        var ijson = new IJson();
-        ijson.newTable("DataHeader");
-        ijson.addRow("katakunci", this.state.katakunci);
-        ijson.addRow("page", this.state.pageNumber);
-        ijson.endRow();
-        ijson.createTable();
-
-        this.ih.setFormData();
-
-        var token = "";
-        var postdata = ijson.generateJson();
-        var res = await this.ih.sendData(AppConfig.APP_URL, "user/list", token, postdata);
-        
         this.setState({ isLoading : false });
 
-        var resdata = IJson.parse(res);
-        if(resdata.status == false)
+        if(res.Number != 0)
         {
-            result.Message = "Data yang diterima bermasalah, " + resdata.pesan;
-            Alert.alert("KESALAHAN", result.Message);
+            this.AlertDialog.toastMsg("KESALAHAN : " + res.Message);
             return;
         }
 
-        var rows = IJson.jsontodata(res, 'DataUser');
-        if (rows == null)
-        {
-            result.Message = "Data yang diterima bermasalah, " + resdata.pesan;
-            Alert.alert("KESALAHAN", result.Message);
-            return;
-        }
-
-        console.log(rows);
-        this.setState({ datalist : rows });
-        
+        this.setState({ datalist : res.Data });
     }
 
     click_OpenMenu = () => {
@@ -97,6 +76,18 @@ export default class user_list extends Component {
 
     click_editData = () => {
         
+    }
+
+    click_hapusData = async () => {
+        this.setState({ isShowPopup: false });
+        var row = this.state.selectedRow;
+        var confirm = await this.AlertDialog.alertConfirm("KONFIRMASI", "hapus data, kode : " + row.username);
+        if(confirm)
+        {
+
+        }
+
+        this.setState({ isShowPopup: true });
     }
 
     click_OpenPopup = (row) => {
@@ -142,13 +133,26 @@ export default class user_list extends Component {
                 <Portal>
                     <Dialog visible={this.state.isShowPopup} onDismiss={()=> this.hideDialog()}>
                         <Dialog.Title>Pilihan : [{this.state.selectedRow.username}]</Dialog.Title>
-                        <Dialog.Content style={{ alignSelf: 'flex-start' }}>
-                            <Button icon="pencil" mode="text" onPress={() => this.click_editData()}>
+                        <Dialog.Content>
+                            <TouchableOpacity onPress={() => this.click_editData()}>
+                                <List.Item
+                                    title="Edit"
+                                    left={props => <List.Icon {...props} icon="pencil" />}
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.click_hapusData()}>
+                                <List.Item
+                                    title="Hapus"
+                                    left={props => <List.Icon {...props} icon="delete" />}
+                                />
+                            </TouchableOpacity>
+                            
+                            {/* <Button icon="pencil" mode="outlined" onPress={() => this.click_editData()}>
                                 Edit Data 
                             </Button>
-                            <Button icon="delete" mode="text" color="red" onPress={() => console.log('Pressed')} style={{ marginTop: 10 }}>
+                            <Button icon="delete" mode="outlined" color="red" onPress={() => console.log('Pressed')} style={{ marginTop: 10 }}>
                                 Hapus Data
-                            </Button>
+                            </Button> */}
                         </Dialog.Content>
                         <Dialog.Actions>
                             <Button onPress={()=> this.hideDialog()}>Tutup</Button>
