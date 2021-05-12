@@ -3,7 +3,7 @@ import IJson from "../../app/ijson";
 import ReturnModel from "../../app/returnmodel";
 import AppConfig from "../../app/appconfig";
 
-export default class user_list_service
+export default class galeri_list_service
 {
     
     constructor()
@@ -29,7 +29,7 @@ export default class user_list_service
 
         var token = "";
         var postdata = ijson.generateJson();
-        var res = await this.ih.sendData(AppConfig.APP_URL, "user/list", token, postdata);
+        var res = await this.ih.sendData(AppConfig.APP_URL, "galeri/list", token, postdata);
 
         // console.log(postdata);
         // console.log(res);
@@ -42,11 +42,11 @@ export default class user_list_service
             return result;
         }
 
-        var rows = IJson.jsontodata(res, 'DataUser');
+        var rows = IJson.jsontodata(res, 'DataGaleri');
         if (rows == null)
         {
             result.Number = 1;
-            result.Message = "Data yang diterima bermasalah [DataUser], " + resdata.pesan;
+            result.Message = "Data yang diterima bermasalah [DataGaleri], " + resdata.pesan;
             return;
         }
 
@@ -76,7 +76,7 @@ export default class user_list_service
         ijson.createTable();
         var token = "";
         var postdata = ijson.generateJson();
-        var res = await this.ih.sendData(AppConfig.APP_URL, "user/delete", token, postdata);
+        var res = await this.ih.sendData(AppConfig.APP_URL, "galeri/delete", token, postdata);
 
         var retres = IJson.parse(res);
         var result = new ReturnModel();

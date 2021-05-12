@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios from 'axios';
+import { Platform } from 'react-native';
 
 export default class iHttpRequest
 {
@@ -19,6 +20,15 @@ export default class iHttpRequest
     addPost(postname, postimg)
     {
         this.postDataFile.append(postname, postimg);
+    }
+
+    addImage(postname, photo)
+    {
+        this.postDataFile.append(postname, {
+            name: photo.fileName,
+            type: photo.type,
+            uri: Platform.OS === 'ios' ? photo.uri.replace('file://', '') : photo.uri,
+        });
     }
 
     async sendData(url, modname, token, post)

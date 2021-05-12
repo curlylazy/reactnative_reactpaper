@@ -13,14 +13,11 @@ import {
     MenuTrigger,
 } from 'react-native-popup-menu';
 
-// style
-import css from '../../style/styles';
-
 import AppConfig from "../../app/appconfig";
 import AlertDialog from "../../app/alertdialog";
 
 // service
-import user_ae_service from "../../service/user/user_ae_service";
+import user_list_service from "../../service/user/user_ae_service";
 
 // function user_ae({ route, navigation }) {
 //     /* 2. Get the param */
@@ -54,7 +51,7 @@ export default class user_ae extends Component {
         super(props);
 
         this.AlertDialog = new AlertDialog();
-        this.userService = new user_ae_service();
+        this.userService = new user_list_service();
 
         this.state = {
 
@@ -88,10 +85,8 @@ export default class user_ae extends Component {
         {
             let rowparam = this.props.route.params.rowparam;
             this.userService.setModeAct(rowparam.kodeuser);
-            this.setState({
-                judul_page : "Edit User",
-                subjudul_page : rowparam.nama 
-            });
+            this.setState({judul_page : "Edit User"});
+            this.setState({subjudul_page : rowparam.nama });
             this.readData();
         }
     }
@@ -175,7 +170,7 @@ export default class user_ae extends Component {
 
     render() {
         return (
-            <View style={{flex: 1}}>
+            <ScrollView>
                 
                 <StatusBar
                     animated={true}
@@ -198,82 +193,76 @@ export default class user_ae extends Component {
                 {/* progress dialog */}
                 <ProgressDialog visible={this.state.isLoading} label="Loading.."/>
 
-                <View style={{flex: 1}}>
-                    <ScrollView>
-                        <Row size={12} style={{ padding: 10 }}>
-                            <Col sm={12}>
-                                <TextInput
-                                    mode="outlined"
-                                    label="Username"
-                                    value={this.state.username}
-                                    onChangeText={(username) => this.setState({ username })}
-                                />
-                            </Col>
-                            <Col sm={12} style={{ marginTop: 10 }}>
-                                <TextInput
-                                    mode="outlined"
-                                    label="Password"
-                                    value={this.state.password}
-                                    onChangeText={(password) => this.setState({ password })}
-                                />
-                            </Col>
-                            <Col sm={12} style={{ marginTop: 10 }}>
-                                <TextInput
-                                    mode="outlined"
-                                    label="Nama"
-                                    value={this.state.nama}
-                                    onChangeText={(nama) => this.setState({ nama })}
-                                />
-                            </Col>
-                            <Col sm={12} style={{ marginTop: 10 }}>
-                                <TextInput
-                                    mode="outlined"
-                                    label="Alamat"
-                                    value={this.state.alamat}
-                                    onChangeText={(alamat) => this.setState({ alamat })}
-                                />
-                            </Col>
-                            <Col sm={12} style={{ marginTop: 10 }}>
-                                <TextInput
-                                    mode="outlined"
-                                    label="No Telepon"
-                                    keyboardType='numeric'
-                                    value={this.state.telepon}
-                                    onChangeText={(telepon) => this.setState({ telepon })}
-                                />
-                            </Col>
-                            <Col sm={12} style={{ marginTop: 10 }}>
-                                <View style={{ flex: 1, flexDirection: 'row'}}>
-                                    <RadioButton
-                                        value="P"
-                                        status={ this.state.jk === 'P' ? 'checked' : 'unchecked' }
-                                        onPress={() => this.setState({ jk: 'P' })}
-                                    />
-                                    <Text style={{ marginTop: 10 }}>Perempuan</Text>
-
-                                    <RadioButton
-                                        value="L"
-                                        status={ this.state.jk === 'L' ? 'checked' : 'unchecked' }
-                                        onPress={() => this.setState({ jk: 'L' })}
-                                    />
-                                    <Text style={{ marginTop: 10 }}>Laki - laki</Text>
-                                </View>
-                            </Col>
-                        </Row>
-                    </ScrollView>
-                </View>
-                <View style={ css.footer }>
+                <View>
                     <Row size={12} style={{ padding: 10 }}>
                         <Col sm={12}>
-                            <Button mode="contained" onPress={() => this.saveData()} color="white">
-                                <Icon name="content-save" />
-                                <Text>SIMPAN</Text>
+                            <TextInput
+                                mode="outlined"
+                                label="Username"
+                                value={this.state.username}
+                                onChangeText={(username) => this.setState({ username })}
+                            />
+                        </Col>
+                        <Col sm={12} style={{ marginTop: 10 }}>
+                            <TextInput
+                                mode="outlined"
+                                label="Password"
+                                value={this.state.password}
+                                onChangeText={(password) => this.setState({ password })}
+                            />
+                        </Col>
+                        <Col sm={12} style={{ marginTop: 10 }}>
+                            <TextInput
+                                mode="outlined"
+                                label="Nama"
+                                value={this.state.nama}
+                                onChangeText={(nama) => this.setState({ nama })}
+                            />
+                        </Col>
+                        <Col sm={12} style={{ marginTop: 10 }}>
+                            <TextInput
+                                mode="outlined"
+                                label="Alamat"
+                                value={this.state.alamat}
+                                onChangeText={(alamat) => this.setState({ alamat })}
+                            />
+                        </Col>
+                        <Col sm={12} style={{ marginTop: 10 }}>
+                            <TextInput
+                                mode="outlined"
+                                label="No Telepon"
+                                keyboardType='numeric'
+                                value={this.state.telepon}
+                                onChangeText={(telepon) => this.setState({ telepon })}
+                            />
+                        </Col>
+                        <Col sm={12} style={{ marginTop: 10 }}>
+                            <View style={{ flex: 1, flexDirection: 'row'}}>
+                                <RadioButton
+                                    value="P"
+                                    status={ this.state.jk === 'P' ? 'checked' : 'unchecked' }
+                                    onPress={() => this.setState({ jk: 'P' })}
+                                />
+                                <Text style={{ marginTop: 10 }}>Perempuan</Text>
+
+                                <RadioButton
+                                    value="L"
+                                    status={ this.state.jk === 'L' ? 'checked' : 'unchecked' }
+                                    onPress={() => this.setState({ jk: 'L' })}
+                                />
+                                <Text style={{ marginTop: 10 }}>Laki - laki</Text>
+                            </View>
+                        </Col>
+
+                        <Col sm={12} style={{ marginTop: 10 }}>
+                            <Button mode="contained" onPress={this.saveData}>
+                                <Icon name="content-save" /> SIMPAN
                             </Button>
                         </Col>
                     </Row>
                 </View>
 
-            </View>
+            </ScrollView>
         );
     }
 }

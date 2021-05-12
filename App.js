@@ -6,10 +6,15 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { MenuProvider } from 'react-native-popup-menu';
 
+// page test
+import footer from './screen/test/footer';
+
 import dashboard from './screen/dashboard/dashboard';
 import registrasi from './screen/registrasi/registrasi';
 import user_list from './screen/user/user_list';
 import user_ae from './screen/user/user_ae';
+import galeri_list from './screen/galeri/galeri_list';
+import galeri_ae from './screen/galeri/galeri_ae';
 
 const Stack = createStackNavigator();
 
@@ -30,15 +35,21 @@ function App() {
             <PaperProvider theme={theme}>
                 <NavigationContainer>
                     <Stack.Navigator
-                        initialRouteName="user_list"
+                        initialRouteName="galeri_list"
                         screenOptions={{
                             headerShown: false
                         }}
                     >
+                        {/* for testing */}
+                        <Stack.Screen name="footer" component={ footer } />
+                        
+                        {/* page form */}
                         <Stack.Screen name="dashboard" component={ dashboard } />
                         <Stack.Screen name="registrasi" component={ registrasi } />
                         <Stack.Screen name="user_list" component={ user_list } />
                         <Stack.Screen name="user_ae" component={ user_ae } />
+                        <Stack.Screen name="galeri_list" component={ galeri_list } />
+                        <Stack.Screen name="galeri_ae" component={ galeri_ae } />
                     </Stack.Navigator>
                 </NavigationContainer>
             </PaperProvider>

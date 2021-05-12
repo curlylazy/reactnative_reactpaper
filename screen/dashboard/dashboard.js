@@ -55,6 +55,25 @@ export default class dashboard extends Component {
                                 <Text style={{ marginTop: 15 }}>DAFTAR USER</Text>
                             </TouchableOpacity>
                         </Col>
+                        <Col sm={4} style={{ alignItems: 'center' }}>
+                            <TouchableOpacity onPress={ () => this.props.navigation.navigate('footer')}>
+                                <Image
+                                    source={require('../../img/daftaritem.png')}
+                                    style={styles.icon}
+                                />
+                                <Text style={{ marginTop: 15 }}>FOOTER TEXT</Text>
+                            </TouchableOpacity>
+                        </Col>
+
+                        <Col sm={4} style={{ alignItems: 'center', marginTop: 20 }}>
+                            <TouchableOpacity onPress={ () => this.props.navigation.navigate('galeri_list')}>
+                                <Image
+                                    source={require('../../img/galeri.png')}
+                                    style={styles.icon}
+                                />
+                                <Text style={{ marginTop: 15}}>GBR GALERI</Text>
+                            </TouchableOpacity>
+                        </Col>
                     </Row>   
                 </View>
                  

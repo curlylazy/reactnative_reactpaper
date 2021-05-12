@@ -2,7 +2,7 @@ export default class AppConfig
 {
     static APP_NAME = "Bengkel APP";
     static APP_URL = "http://192.168.102.50/lumen_2021/public";
-    static APP_URL_IMG = 'http://192.168.102.50/reactwebservice_bengkel/data/gambar_upload';
+    static APP_URL_IMG = 'http://192.168.102.50/lumen_2021/public/uploads/pic';
 
     static SAVE_MODE_ADD = "1";
     static SAVE_MODE_EDIT = "2";

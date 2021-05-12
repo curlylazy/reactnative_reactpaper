@@ -3,6 +3,7 @@ import { Alert, StyleSheet, StatusBar, ScrollView, View, TouchableOpacity } from
 import { Appbar } from 'react-native-paper';
 import {Column as Col, Row} from 'react-native-flexbox-grid';
 import { TextInput, Button, RadioButton, Text, Searchbar, List, Paragraph, Dialog, Portal, TouchableRipple } from 'react-native-paper';
+import { Avatar, Card, Title } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ProgressDialog from 'react-native-progress-dialog';
 
@@ -17,23 +18,19 @@ import {
 import css from '../../style/styles';
 
 // app
-import iHttpRequest from "../../app/ihttprequest";
-import IJson from "../../app/ijson";
 import AppConfig from "../../app/appconfig";
-import ReturnModel from "../../app/returnmodel";
 import AlertDialog from "../../app/alertdialog";
 
 // service
-import user_list_service from "../../service/user/user_list_service";
+import galeri_list_service from "../../service/galeri/galeri_list_service";
 
-export default class user_list extends Component {
+export default class galeri_list extends Component {
 
     constructor(props) {
         super(props);
 
-        this.ih = new iHttpRequest();
         this.AlertDialog = new AlertDialog();
-        this.userService = new user_list_service();
+        this.galeriService = new galeri_list_service();
 
         this.state = {
             katakunci: "",
@@ -57,12 +54,12 @@ export default class user_list extends Component {
     {
         this.setState({ isLoading : true });
 
-        this.userService.KataKunci = this.state.katakunci;
-        var res = await this.userService.requestData(this.state.pageNumber);
+        this.galeriService.KataKunci = this.state.katakunci;
+        var res = await this.galeriService.requestData(this.state.pageNumber);
 
         this.setState({ 
-            totalData : this.userService.TotalData, 
-            totalPage : this.userService.TotalPage,
+            totalData : this.galeriService.TotalData, 
+            totalPage : this.galeriService.TotalPage,
             isLoading : false
         });
 
@@ -75,20 +72,16 @@ export default class user_list extends Component {
         this.setState({ datalist : res.Data });
     }
 
-    click_editData = () => {
-        this.setState({ isShowPopup: false });
-        var row = this.state.selectedRow;
-        this.props.navigation.navigate('user_ae', { rowparam: row, save_mode: "**upd" });
+    click_editData = (row) => {
+        this.props.navigation.navigate('galeri_ae', { rowparam: row, save_mode: "**upd" });
     }
 
-    click_hapusData = async () => {
-        this.setState({ isShowPopup: false });
-        var row = this.state.selectedRow;
-        var confirm = await this.AlertDialog.alertConfirm("KONFIRMASI", "hapus data, kode : " + row.username);
+    click_hapusData = async (row) => {
+        var confirm = await this.AlertDialog.alertConfirm("KONFIRMASI", "hapus data, kode : " + row.judulgaleri);
         if(confirm)
         {
             this.setState({ isLoading : true });
-            var res = await this.userService.deleteData(row.kodeuser);
+            var res = await this.galeriService.deleteData(row.kodegaleri);
             this.setState({ isLoading : false });
 
             if(res.Number != 0)
@@ -99,12 +92,6 @@ export default class user_list extends Component {
         }
 
         this.readData();
-    }
-
-    click_OpenPopup = (row) => {
-        this.setState({ selectedRow: row });
-        this.setState({ isShowPopup: true });
-        console.log(this.state.selectedRow);
     }
 
     hideDialog = () => {
@@ -161,9 +148,9 @@ export default class user_list extends Component {
 
                 <Appbar.Header>
                     <Appbar.BackAction onPress={() => this.props.navigation.navigate('dashboard')} />
-                    <Appbar.Content title="Daftar User" />
+                    <Appbar.Content title="Daftar Galeri" />
                     <Appbar.Action icon="refresh" onPress={() => this.click_Reset()} />
-                    <Appbar.Action icon="plus" onPress={() => this.props.navigation.navigate('user_ae', { save_mode: "**new" })} />
+                    <Appbar.Action icon="plus" onPress={() => this.props.navigation.navigate('galeri_ae', { save_mode: "**new" })} />
                     <Menu>
                         <MenuTrigger>
                             <Icon name="dots-vertical" size={25}/>
@@ -178,30 +165,6 @@ export default class user_list extends Component {
                 {/* progress dialog */}
                 <ProgressDialog visible={this.state.isLoading} label="Loading.."/>
 
-                {/* popup list click */}
-                <Portal>
-                    <Dialog visible={this.state.isShowPopup} onDismiss={()=> this.hideDialog()}>
-                        <Dialog.Title>Pilihan : [{this.state.selectedRow.username}]</Dialog.Title>
-                        <Dialog.Content>
-                            <TouchableRipple onPress={() => this.click_editData()}>
-                                <List.Item
-                                    title="Edit"
-                                    left={props => <List.Icon {...props} icon="pencil" />}
-                                />
-                            </TouchableRipple>
-                            <TouchableRipple onPress={() => this.click_hapusData()}>
-                                <List.Item
-                                    title="Hapus"
-                                    left={props => <List.Icon {...props} icon="delete" />}
-                                />
-                            </TouchableRipple>
-                        </Dialog.Content>
-                        <Dialog.Actions>
-                            <Button onPress={()=> this.hideDialog()}>Tutup</Button>
-                        </Dialog.Actions>
-                    </Dialog>
-                </Portal>
-                
                 <View style={{height: 50}}>
                     <Row size={12} style={{ padding: 10 }}>
                         <Col sm={12}>
@@ -213,24 +176,25 @@ export default class user_list extends Component {
                         </Col>
                     </Row>
                 </View>
-                <View style={{flex: 1}}>
+                <View style={{flex: 1, paddingTop: 10}}>
                     <ScrollView>
-                        <Row size={12} style={{ padding: 10 }}>
-                            <Col sm={12}>
-                                {
-                                    this.state.datalist.map((row, index) => {
-                                        return (
-                                            <TouchableOpacity key={row.kodeuser} onPress={() => this.click_OpenPopup(row)}>
-                                                <List.Item key={index}
-                                                    title={ row['nama'] }
-                                                    description={ row['alamat'] + "\n" + row['telepon'] }
-                                                    left={props => <List.Icon {...props} icon="account" />}
-                                                />
-                                            </TouchableOpacity>
-                                        )
-                                    })
-                                }
-                            </Col>
+                        <Row size={12} style={{ padding: 5 }}>
+                            {
+                                this.state.datalist.map((row, index) => {
+                                    return (
+                                        <Col sm={6} style={{ padding: 5 }}>
+                                            <Card>
+                                                <Card.Title title={row.kodegaleri} subtitle={row.judulgaleri} />
+                                                <Card.Cover source={{ uri: AppConfig.APP_URL_IMG + '/' + row.gambargaleri }} />
+                                                <Card.Actions>
+                                                    <Button onPress={() => this.click_editData(row)}>Edit</Button>
+                                                    <Button onPress={() => this.click_hapusData(row)}>Hapus</Button>
+                                                </Card.Actions>
+                                            </Card>
+                                        </Col>
+                                    )
+                                })
+                            }
                         </Row>
                     </ScrollView>
                 </View>

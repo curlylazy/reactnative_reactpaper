@@ -13,17 +13,12 @@ import {
     MenuTrigger,
 } from 'react-native-popup-menu';
 
-// style
-import css from '../../style/styles';
-
-// app
 import iHttpRequest from "../../app/ihttprequest";
 import IJson from "../../app/ijson";
 import AppConfig from "../../app/appconfig";
 import ReturnModel from "../../app/returnmodel";
 import AlertDialog from "../../app/alertdialog";
 
-// service
 import user_list_service from "../../service/user/user_list_service";
 
 export default class user_list extends Component {
@@ -39,7 +34,6 @@ export default class user_list extends Component {
             katakunci: "",
             pageNumber: 1,
             totalData: 0,
-            totalPage: 0,
             datalist: [],
             selectedRow: [],
 
@@ -60,11 +54,7 @@ export default class user_list extends Component {
         this.userService.KataKunci = this.state.katakunci;
         var res = await this.userService.requestData(this.state.pageNumber);
 
-        this.setState({ 
-            totalData : this.userService.TotalData, 
-            totalPage : this.userService.TotalPage,
-            isLoading : false
-        });
+        this.setState({ isLoading : false });
 
         if(res.Number != 0)
         {
@@ -111,37 +101,6 @@ export default class user_list extends Component {
         this.setState({ isShowPopup: false });
     }
 
-    click_Reset = async () => {
-        await this.setState({ 
-            pageNumber: 1, 
-            totalPage: 0,
-            katakunci: ""
-        });
-        this.readData();
-    }
-
-    click_PrevPage = async () => {
-        if(this.state.pageNumber <= 1)
-        {
-            return;
-        }
-            
-        var page =  this.state.pageNumber - 1;
-        await this.setState({ pageNumber: page });
-        this.readData();
-    }
-
-    click_NextPage = async () => {
-        if(this.state.pageNumber == this.state.totalPage)
-        {
-            return;
-        }
-
-        var page =  this.state.pageNumber + 1;
-        await this.setState({ pageNumber: page });
-        this.readData();
-    }
-
     click_OpenMenu = () => {
         // this.props.navigation.navigate('Signin');
         this.setState({ isMenuVisible: true });
@@ -153,7 +112,7 @@ export default class user_list extends Component {
 
     render() {
         return (
-            <View style={{flex: 1}}>
+            <View>
                 
                 <StatusBar
                     animated={true}
@@ -162,7 +121,7 @@ export default class user_list extends Component {
                 <Appbar.Header>
                     <Appbar.BackAction onPress={() => this.props.navigation.navigate('dashboard')} />
                     <Appbar.Content title="Daftar User" />
-                    <Appbar.Action icon="refresh" onPress={() => this.click_Reset()} />
+                    <Appbar.Action icon="refresh" onPress={() => this.readData()} />
                     <Appbar.Action icon="plus" onPress={() => this.props.navigation.navigate('user_ae', { save_mode: "**new" })} />
                     <Menu>
                         <MenuTrigger>
@@ -202,21 +161,31 @@ export default class user_list extends Component {
                     </Dialog>
                 </Portal>
                 
-                <View style={{height: 50}}>
-                    <Row size={12} style={{ padding: 10 }}>
-                        <Col sm={12}>
+
+                <View>
+                    <ScrollView>
+                        <Row size={12} style={{ padding: 10 }}>
+                            <Col sm={12}>
                             <Searchbar
                                 placeholder="Search"
                                 onChangeText={(katakunci) => this.setState({ katakunci }) }
                                 onSubmitEditing={() => this.readData() }
                             />
-                        </Col>
-                    </Row>
-                </View>
-                <View style={{flex: 1}}>
-                    <ScrollView>
-                        <Row size={12} style={{ padding: 10 }}>
+                            </Col>
                             <Col sm={12}>
+                                {
+                                    this.state.datalist.map((row, index) => {
+                                        return (
+                                            <TouchableOpacity key={row.kodeuser} onPress={() => this.click_OpenPopup(row)}>
+                                                <List.Item key={index}
+                                                    title={ row['nama'] }
+                                                    description={ row['alamat'] + "\n" + row['telepon'] }
+                                                    left={props => <List.Icon {...props} icon="account" />}
+                                                />
+                                            </TouchableOpacity>
+                                        )
+                                    })
+                                }
                                 {
                                     this.state.datalist.map((row, index) => {
                                         return (
@@ -234,25 +203,7 @@ export default class user_list extends Component {
                         </Row>
                     </ScrollView>
                 </View>
-                <View style={ css.footer }>
-                    <Row size={12} style={{ padding: 10 }}>
-                        <Col sm={4}>
-                            <Button mode="contained" onPress={() => this.click_PrevPage()} color="white">
-                                <Icon name="skip-previous" />
-                                <Text>PREV</Text>
-                            </Button>
-                        </Col>
-                        <Col sm={4} style={ css.footer_pageinfo }>
-                            <Text>{this.state.pageNumber} / {this.state.totalPage}</Text>
-                        </Col>
-                        <Col sm={4}>
-                            <Button mode="contained" onPress={() => this.click_NextPage()} color="white">
-                                <Text>NEXT</Text>
-                                <Icon name="skip-next" />
-                            </Button>
-                        </Col>
-                    </Row>
-                </View>
+
             </View>
         );
     }

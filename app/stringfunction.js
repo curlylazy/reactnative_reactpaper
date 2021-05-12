@@ -1,4 +1,4 @@
-import moment from 'moment'
+// import moment from 'moment'
 
 export default class StringFunction
 {
@@ -21,48 +21,48 @@ export default class StringFunction
         return false
     }
 
-    FormatTanggal(vars)
-    {
-        var iRes = "";
-        iRes = moment(String(vars)).format('dddd, MMMM Do YYYY');
-        return iRes;
-    }
+    // FormatTanggal(vars)
+    // {
+    //     var iRes = "";
+    //     iRes = moment(String(vars)).format('dddd, MMMM Do YYYY');
+    //     return iRes;
+    // }
 
-    StatusTransaksi(vars)
-    {
-        var iRes = "";
+    // StatusTransaksi(vars)
+    // {
+    //     var iRes = "";
 
-        if(vars == 0)
-            iRes = "Pending";
+    //     if(vars == 0)
+    //         iRes = "Pending";
 
-        else if(vars == 1)
-            iRes = "Menunggu Konfrimasi";
+    //     else if(vars == 1)
+    //         iRes = "Menunggu Konfrimasi";
 
-        else if(vars == 2)
-            iRes = "Valid";
+    //     else if(vars == 2)
+    //         iRes = "Valid";
 
-        else if(vars == 3)
-            iRes = "Sudah  Terkirim";
+    //     else if(vars == 3)
+    //         iRes = "Sudah  Terkirim";
 
-        else if(vars == 4)
-            iRes = "Gagal";
+    //     else if(vars == 4)
+    //         iRes = "Gagal";
 
-        else if(vars == 5)
-            iRes = "Dibatalkan";
+    //     else if(vars == 5)
+    //         iRes = "Dibatalkan";
 
-        return iRes;
-    }
+    //     return iRes;
+    // }
 
-    JenisPelanggan(vars)
-    {
-        var iRes = "";
+    // JenisPelanggan(vars)
+    // {
+    //     var iRes = "";
 
-        if(vars == "RT")
-            iRes = "Rumah Tangga";
+    //     if(vars == "RT")
+    //         iRes = "Rumah Tangga";
 
-        else if(vars == "PR")
-            iRes = "Perusahaan";
+    //     else if(vars == "PR")
+    //         iRes = "Perusahaan";
 
-        return iRes;
-    }
+    //     return iRes;
+    // }
 }
