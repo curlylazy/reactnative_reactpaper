@@ -25,6 +25,7 @@
     "react-native-flexbox-grid": "^0.3.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-image-picker": "^3.6.0",
+    "react-native-maps": "0.28.0",
     "react-native-paper": "^4.7.2",
     "react-native-popup-menu": "^0.15.10",
     "react-native-progress-dialog": "0.0.5",

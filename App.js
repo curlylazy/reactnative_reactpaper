@@ -15,6 +15,8 @@ import user_list from './screen/user/user_list';
 import user_ae from './screen/user/user_ae';
 import galeri_list from './screen/galeri/galeri_list';
 import galeri_ae from './screen/galeri/galeri_ae';
+import maps from './screen/maps/maps';
+import login from './screen/login/login';
 
 const Stack = createStackNavigator();
 
@@ -35,7 +37,7 @@ function App() {
             <PaperProvider theme={theme}>
                 <NavigationContainer>
                     <Stack.Navigator
-                        initialRouteName="galeri_list"
+                        initialRouteName="login"
                         screenOptions={{
                             headerShown: false
                         }}
@@ -50,6 +52,8 @@ function App() {
                         <Stack.Screen name="user_ae" component={ user_ae } />
                         <Stack.Screen name="galeri_list" component={ galeri_list } />
                         <Stack.Screen name="galeri_ae" component={ galeri_ae } />
+                        <Stack.Screen name="maps" component={ maps } />
+                        <Stack.Screen name="login" component={ login } />
                     </Stack.Navigator>
                 </NavigationContainer>
             </PaperProvider>

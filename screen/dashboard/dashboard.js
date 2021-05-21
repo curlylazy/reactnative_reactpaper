@@ -43,7 +43,7 @@ export default class dashboard extends Component {
                                     source={require('../../img/registrasi.png')}
                                     style={styles.icon}
                                 />
-                                <Text style={{ marginTop: 15 }}>REGISTRASI</Text>
+                                <Text style={styles.fontMenu}>REGISTRASI</Text>
                             </TouchableOpacity>
                         </Col>
                         <Col sm={4} style={{ alignItems: 'center' }}>
@@ -52,7 +52,7 @@ export default class dashboard extends Component {
                                     source={require('../../img/daftaritem.png')}
                                     style={styles.icon}
                                 />
-                                <Text style={{ marginTop: 15 }}>DAFTAR USER</Text>
+                                <Text style={styles.fontMenu}>DAFTAR USER</Text>
                             </TouchableOpacity>
                         </Col>
                         <Col sm={4} style={{ alignItems: 'center' }}>
@@ -61,7 +61,7 @@ export default class dashboard extends Component {
                                     source={require('../../img/daftaritem.png')}
                                     style={styles.icon}
                                 />
-                                <Text style={{ marginTop: 15 }}>FOOTER TEXT</Text>
+                                <Text style={styles.fontMenu}>FOOTER TEXT</Text>
                             </TouchableOpacity>
                         </Col>
 
@@ -71,7 +71,27 @@ export default class dashboard extends Component {
                                     source={require('../../img/galeri.png')}
                                     style={styles.icon}
                                 />
-                                <Text style={{ marginTop: 15}}>GBR GALERI</Text>
+                                <Text style={styles.fontMenu}>GBR GALERI</Text>
+                            </TouchableOpacity>
+                        </Col>
+
+                        <Col sm={4} style={{ alignItems: 'center', marginTop: 20 }}>
+                            <TouchableOpacity onPress={ () => this.props.navigation.navigate('maps')}>
+                                <Image
+                                    source={require('../../img/map.png')}
+                                    style={styles.icon}
+                                />
+                                <Text style={styles.fontMenu}>MAPS</Text>
+                            </TouchableOpacity>
+                        </Col>
+
+                        <Col sm={4} style={{ alignItems: 'center', marginTop: 20 }}>
+                            <TouchableOpacity onPress={ () => this.props.navigation.navigate('login')}>
+                                <Image
+                                    source={require('../../img/login.png')}
+                                    style={styles.icon}
+                                />
+                                <Text style={styles.fontMenu}>LOGIN</Text>
                             </TouchableOpacity>
                         </Col>
                     </Row>   
@@ -95,6 +115,11 @@ const styles = StyleSheet.create({
         color: 'white', 
         fontSize: 16, 
         fontFamily: "Roboto"
+    },
+
+    fontMenu:{
+        marginTop: 15, 
+        textAlign: 'center'
     },
 
     imgBackground:{

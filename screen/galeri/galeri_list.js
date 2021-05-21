@@ -182,7 +182,7 @@ export default class galeri_list extends Component {
                             {
                                 this.state.datalist.map((row, index) => {
                                     return (
-                                        <Col sm={6} style={{ padding: 5 }}>
+                                        <Col sm={6} style={{ padding: 5 }} key={index}>
                                             <Card>
                                                 <Card.Title title={row.kodegaleri} subtitle={row.judulgaleri} />
                                                 <Card.Cover source={{ uri: AppConfig.APP_URL_IMG + '/' + row.gambargaleri }} />
