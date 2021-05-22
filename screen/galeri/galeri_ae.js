@@ -144,10 +144,8 @@ export default class galeri_ae extends Component {
 
     render() {
 
-        const { gambargaleri } = this.state
-
         return (
-            <View style={{flex: 1}}>
+            <View style={css.droidSafeArea}>
                 
                 <StatusBar
                     animated={true}
@@ -189,7 +187,7 @@ export default class galeri_ae extends Component {
                                 />
                             </Col>
                             <Col sm={12} style={{ marginTop: 10 }}>
-                                <Button onPress={() => this.handleChoosePhoto()} mode="contained" style={{ width: 150 }}>
+                                <Button onPress={() => this.handleChoosePhoto()} mode="contained" style={{ width: 250 }}>
                                     <Icon name="image" />
                                     <Text>Pilih Gambar</Text>
                                 </Button>

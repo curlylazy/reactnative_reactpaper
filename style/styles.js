@@ -1,5 +1,5 @@
 'use strict';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform, StatusBar } from 'react-native';
 
 export default StyleSheet.create({
     
@@ -11,6 +11,11 @@ export default StyleSheet.create({
     footer: {
         height: 60, 
         backgroundColor: 'gray'
+    },
+
+    droidSafeArea: {
+        flex: 1,
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
     }
 });
 

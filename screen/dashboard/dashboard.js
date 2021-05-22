@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, View, Image, Text, ImageBackground, TouchableOpacity } from 'react-native';
+import { AppRegistry, StyleSheet, View, Image, Text, ImageBackground, TouchableOpacity, SafeAreaView } from 'react-native';
 import {Column as Col, Row} from 'react-native-flexbox-grid';
+
+// style
+import css from '../../style/styles';
 
 export default class dashboard extends Component {
 

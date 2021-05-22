@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, StatusBar, ScrollView, View, TouchableOpacity } from 'react-native';
+import { Alert, StyleSheet, StatusBar, ScrollView, View, SafeAreaView } from 'react-native';
 import { Appbar } from 'react-native-paper';
 import {Column as Col, Row} from 'react-native-flexbox-grid';
 import { TextInput, Button, RadioButton, Text, Searchbar, List, Paragraph, Dialog, Portal, TouchableRipple } from 'react-native-paper';
@@ -140,7 +140,7 @@ export default class galeri_list extends Component {
 
     render() {
         return (
-            <View style={{flex: 1}}>
+            <SafeAreaView style={ css.droidSafeArea }>
                 
                 <StatusBar
                     animated={true}
@@ -217,7 +217,7 @@ export default class galeri_list extends Component {
                         </Col>
                     </Row>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
 }

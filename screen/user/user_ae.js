@@ -175,7 +175,7 @@ export default class user_ae extends Component {
 
     render() {
         return (
-            <View style={{flex: 1}}>
+            <View style={css.droidSafeArea}>
                 
                 <StatusBar
                     animated={true}

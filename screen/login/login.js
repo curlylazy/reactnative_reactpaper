@@ -49,8 +49,9 @@ export default class login extends Component {
             this.AlertDialog.toastMsg("KESALAHAN : " + res.Message);
             return;
         }
-
+        
         this.AlertDialog.toastMsg("Berhasil login ke dalam sistem.");
+        this.props.navigation.navigate('dashboard');
     }
 
     render() {

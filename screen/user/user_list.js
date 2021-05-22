@@ -25,6 +25,8 @@ import AlertDialog from "../../app/alertdialog";
 
 // service
 import user_list_service from "../../service/user/user_list_service";
+import { color } from 'react-native-reanimated';
+import { white } from 'react-native-paper/lib/typescript/styles/colors';
 
 export default class user_list extends Component {
 
@@ -153,7 +155,7 @@ export default class user_list extends Component {
 
     render() {
         return (
-            <View style={{flex: 1}}>
+            <View style={css.droidSafeArea}>
                 
                 <StatusBar
                     animated={true}
@@ -243,7 +245,7 @@ export default class user_list extends Component {
                             </Button>
                         </Col>
                         <Col sm={4} style={ css.footer_pageinfo }>
-                            <Text>{this.state.pageNumber} / {this.state.totalPage}</Text>
+                            <Text style={{ color: 'white' }}>{this.state.pageNumber} / {this.state.totalPage}</Text>
                         </Col>
                         <Col sm={4}>
                             <Button mode="contained" onPress={() => this.click_NextPage()} color="white">
