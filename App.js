@@ -17,6 +17,7 @@ import galeri_list from './screen/galeri/galeri_list';
 import galeri_ae from './screen/galeri/galeri_ae';
 import maps from './screen/maps/maps';
 import login from './screen/login/login';
+import sqlite_list from './screen/sqlite/sqlite_list';
 
 const Stack = createStackNavigator();
 
@@ -54,6 +55,7 @@ function App() {
                         <Stack.Screen name="galeri_ae" component={ galeri_ae } />
                         <Stack.Screen name="maps" component={ maps } />
                         <Stack.Screen name="login" component={ login } />
+                        <Stack.Screen name="sqlite_list" component={ sqlite_list } />
                     </Stack.Navigator>
                 </NavigationContainer>
             </PaperProvider>

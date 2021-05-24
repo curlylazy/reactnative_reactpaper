@@ -97,6 +97,16 @@ export default class dashboard extends Component {
                                 <Text style={styles.fontMenu}>LOGIN</Text>
                             </TouchableOpacity>
                         </Col>
+
+                        <Col sm={4} style={{ alignItems: 'center', marginTop: 20 }}>
+                            <TouchableOpacity onPress={ () => this.props.navigation.navigate('sqlite_list')}>
+                                <Image
+                                    source={require('../../img/database.png')}
+                                    style={styles.icon}
+                                />
+                                <Text style={styles.fontMenu}>SQL ite</Text>
+                            </TouchableOpacity>
+                        </Col>
                     </Row>   
                 </View>
                  

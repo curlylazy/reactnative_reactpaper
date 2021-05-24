@@ -6,10 +6,13 @@ import { TextInput, Button, RadioButton, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ProgressDialog from 'react-native-progress-dialog';
 
+import SQLite from "react-native-sqlite-2";
+
 // style
 import css from '../../style/styles';
 
 import AppConfig from "../../app/appconfig";
+// import Session from "../../app/session";
 import AlertDialog from "../../app/alertdialog";
 
 // service
@@ -22,18 +25,21 @@ export default class login extends Component {
 
         this.AlertDialog = new AlertDialog();
         this.loginService = new login_service();
+        // this.session =  new Session();
+
+        this.db = SQLite.openDatabase("reactpaper.db", "1.0", "", 1);
 
         this.state = {
 
-            username: "",
-            password: "",
+            username: "iwan",
+            password: "12345",
 
             isLoading: false,
         };
     }
     
     componentDidMount() {
-
+        
     }
 
     login = async () =>
@@ -49,6 +55,34 @@ export default class login extends Component {
             this.AlertDialog.toastMsg("KESALAHAN : " + res.Message);
             return;
         }
+
+        var row = res.Data;
+        // console.log(row);
+
+        // simpan session
+        // this.session.saveSession(row);
+
+        this.db.transaction(function (txn) {
+            txn.executeSql("DROP TABLE IF EXISTS tbl_session", []);
+            txn.executeSql(
+                "CREATE TABLE IF NOT EXISTS tbl_session( " +
+                    " username VARCHAR(30) PRIMARY KEY NOT NULL, " +
+                    " nama VARCHAR(100), " +
+                    " usertoken VARCHAR(255), " +
+                    " email VARCHAR(50) " +
+                ")",
+                []
+            );
+
+            txn.executeSql("INSERT INTO tbl_session (username, nama, usertoken, email) VALUES (:username, :nama, :email)", [row.username, row.nama, row.usertoken, row.email]);
+            txn.executeSql("SELECT * FROM `tbl_session`", [], function (tx, res) {
+                for (let i = 0; i < res.rows.length; ++i) {
+                    row = res.rows.item(i);
+                    console.log(row);
+                    //console.log("item:", res.rows.item(i));
+                }
+            });
+        });
         
         this.AlertDialog.toastMsg("Berhasil login ke dalam sistem.");
         this.props.navigation.navigate('dashboard');
