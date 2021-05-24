@@ -40,7 +40,7 @@ export default class LoginService
         var res = await this.ih.sendData(AppConfig.APP_URL, "user/login", token, postdata);
         var result = new ReturnModel();
 
-        // console.log(res);
+        console.log(res);
 
         var rows = IJson.jsontodata(res, 'DataUser');
         if (rows == null)

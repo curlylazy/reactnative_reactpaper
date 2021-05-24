@@ -12,7 +12,7 @@ import SQLite from "react-native-sqlite-2";
 import css from '../../style/styles';
 
 import AppConfig from "../../app/appconfig";
-// import Session from "../../app/session";
+import Session from "../../app/session";
 import AlertDialog from "../../app/alertdialog";
 
 // service
@@ -25,7 +25,7 @@ export default class login extends Component {
 
         this.AlertDialog = new AlertDialog();
         this.loginService = new login_service();
-        // this.session =  new Session();
+        this.session =  new Session();
 
         this.db = SQLite.openDatabase("reactpaper.db", "1.0", "", 1);
 
@@ -39,7 +39,7 @@ export default class login extends Component {
     }
     
     componentDidMount() {
-        
+        this.session.cekSessionIsLogin();
     }
 
     login = async () =>
@@ -60,32 +60,37 @@ export default class login extends Component {
         // console.log(row);
 
         // simpan session
-        // this.session.saveSession(row);
+        this.session.clearSession();
+        this.session.saveSession(row);
 
-        this.db.transaction(function (txn) {
+        this.AlertDialog.toastMsg("Berhasil login ke dalam sistem.");
+        // this.props.navigation.navigate('dashboard');
+    }
+
+    saveSession = async () =>
+    {
+        const dbs = SQLite.openDatabase("reactpaper.db", "1.0", "", 1);
+        dbs.transaction(function (txn) {
             txn.executeSql("DROP TABLE IF EXISTS tbl_session", []);
             txn.executeSql(
-                "CREATE TABLE IF NOT EXISTS tbl_session( " +
-                    " username VARCHAR(30) PRIMARY KEY NOT NULL, " +
-                    " nama VARCHAR(100), " +
-                    " usertoken VARCHAR(255), " +
-                    " email VARCHAR(50) " +
+                "CREATE TABLE IF NOT EXISTS tbl_session(" +
+                    " kodeid INTEGER PRIMARY KEY NOT NULL, " +
+                    " username VARCHAR(30), " +
+                    " usertoken VARCHAR(30), " +
+                    " nama VARCHAR(30) " +
                 ")",
                 []
             );
-
-            txn.executeSql("INSERT INTO tbl_session (username, nama, usertoken, email) VALUES (:username, :nama, :email)", [row.username, row.nama, row.usertoken, row.email]);
+            txn.executeSql("INSERT INTO tbl_session (username, usertoken) VALUES (:username, :usertoken)", ["aSSSS", "1111"]);
+            txn.executeSql("INSERT INTO tbl_session (username, usertoken) VALUES (:username, :usertoken)", ["dDDSSS", "2222"]);
             txn.executeSql("SELECT * FROM `tbl_session`", [], function (tx, res) {
                 for (let i = 0; i < res.rows.length; ++i) {
-                    row = res.rows.item(i);
-                    console.log(row);
-                    //console.log("item:", res.rows.item(i));
+                    console.log("item:", res.rows.item(i));
                 }
             });
         });
         
-        this.AlertDialog.toastMsg("Berhasil login ke dalam sistem.");
-        this.props.navigation.navigate('dashboard');
+        // this.props.navigation.navigate('dashboard');
     }
 
     render() {
@@ -137,6 +142,11 @@ export default class login extends Component {
                                 <Button mode="contained" style={{ marginTop: 20 }} onPress={() => this.login()} color="brown">
                                     <Icon name="login" />
                                     <Text> LOGIN</Text>
+                                </Button>
+
+                                <Button mode="contained" style={{ marginTop: 20 }} onPress={() => this.saveSession()} color="brown">
+                                    <Icon name="login" />
+                                    <Text> SQL Save</Text>
                                 </Button>
                             </Col>
                         </Row>
