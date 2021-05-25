@@ -23,6 +23,7 @@
     "react-native": "0.64.0",
     "react-native-easy-grid": "^0.2.2",
     "react-native-flexbox-grid": "^0.3.2",
+    "react-native-geolocation-service": "^5.3.0-beta.1",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-image-picker": "^3.6.0",
     "react-native-maps": "0.28.0",
@@ -32,7 +33,7 @@
     "react-native-reanimated": "^2.1.0",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.1.0",
-    "react-native-sqlite-2": "^3.3.0",
+    "react-native-sqlite-storage": "^5.0.0",
     "react-native-toast-message": "^1.4.9",
     "react-native-vector-icons": "^8.1.0"
   },

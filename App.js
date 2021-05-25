@@ -18,6 +18,8 @@ import galeri_ae from './screen/galeri/galeri_ae';
 import maps from './screen/maps/maps';
 import login from './screen/login/login';
 import sqlite_list from './screen/sqlite/sqlite_list';
+import cekauth from './screen/cekauth';
+import gpspage from './screen/gpspage/gpspage';
 
 const Stack = createStackNavigator();
 
@@ -38,7 +40,7 @@ function App() {
             <PaperProvider theme={theme}>
                 <NavigationContainer>
                     <Stack.Navigator
-                        initialRouteName="login"
+                        initialRouteName="cekauth"
                         screenOptions={{
                             headerShown: false
                         }}
@@ -46,6 +48,9 @@ function App() {
                         {/* for testing */}
                         <Stack.Screen name="footer" component={ footer } />
                         
+                        {/* cek auth */}
+                        <Stack.Screen name="cekauth" component={ cekauth } />
+
                         {/* page form */}
                         <Stack.Screen name="dashboard" component={ dashboard } />
                         <Stack.Screen name="registrasi" component={ registrasi } />
@@ -56,6 +61,7 @@ function App() {
                         <Stack.Screen name="maps" component={ maps } />
                         <Stack.Screen name="login" component={ login } />
                         <Stack.Screen name="sqlite_list" component={ sqlite_list } />
+                        <Stack.Screen name="gpspage" component={ gpspage } />
                     </Stack.Navigator>
                 </NavigationContainer>
             </PaperProvider>

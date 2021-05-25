@@ -13,7 +13,10 @@ import {
     MenuTrigger,
 } from 'react-native-popup-menu';
 
-import SQLite from "react-native-sqlite-2";
+// import SQLite from "react-native-sqlite-2";
+import SQLite from 'react-native-sqlite-storage';
+SQLite.DEBUG(false);
+SQLite.enablePromise(false);
 
 // style
 import css from '../../style/styles';

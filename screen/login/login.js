@@ -6,8 +6,6 @@ import { TextInput, Button, RadioButton, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ProgressDialog from 'react-native-progress-dialog';
 
-import SQLite from "react-native-sqlite-2";
-
 // style
 import css from '../../style/styles';
 
@@ -27,8 +25,6 @@ export default class login extends Component {
         this.loginService = new login_service();
         this.session =  new Session();
 
-        this.db = SQLite.openDatabase("reactpaper.db", "1.0", "", 1);
-
         this.state = {
 
             username: "iwan",
@@ -39,7 +35,7 @@ export default class login extends Component {
     }
     
     componentDidMount() {
-        this.session.cekSessionIsLogin();
+        
     }
 
     login = async () =>
@@ -64,33 +60,12 @@ export default class login extends Component {
         this.session.saveSession(row);
 
         this.AlertDialog.toastMsg("Berhasil login ke dalam sistem.");
-        // this.props.navigation.navigate('dashboard');
+        this.props.navigation.navigate('dashboard');
     }
 
-    saveSession = async () =>
+    cekSession = async () =>
     {
-        const dbs = SQLite.openDatabase("reactpaper.db", "1.0", "", 1);
-        dbs.transaction(function (txn) {
-            txn.executeSql("DROP TABLE IF EXISTS tbl_session", []);
-            txn.executeSql(
-                "CREATE TABLE IF NOT EXISTS tbl_session(" +
-                    " kodeid INTEGER PRIMARY KEY NOT NULL, " +
-                    " username VARCHAR(30), " +
-                    " usertoken VARCHAR(30), " +
-                    " nama VARCHAR(30) " +
-                ")",
-                []
-            );
-            txn.executeSql("INSERT INTO tbl_session (username, usertoken) VALUES (:username, :usertoken)", ["aSSSS", "1111"]);
-            txn.executeSql("INSERT INTO tbl_session (username, usertoken) VALUES (:username, :usertoken)", ["dDDSSS", "2222"]);
-            txn.executeSql("SELECT * FROM `tbl_session`", [], function (tx, res) {
-                for (let i = 0; i < res.rows.length; ++i) {
-                    console.log("item:", res.rows.item(i));
-                }
-            });
-        });
-        
-        // this.props.navigation.navigate('dashboard');
+        await this.session.cekSessionIsLogin().then(row => console.log(row));
     }
 
     render() {
@@ -144,9 +119,9 @@ export default class login extends Component {
                                     <Text> LOGIN</Text>
                                 </Button>
 
-                                <Button mode="contained" style={{ marginTop: 20 }} onPress={() => this.saveSession()} color="brown">
+                                <Button mode="contained" style={{ marginTop: 20 }} onPress={() => this.cekSession()} color="brown">
                                     <Icon name="login" />
-                                    <Text> SQL Save</Text>
+                                    <Text> SQL Cek Session</Text>
                                 </Button>
                             </Col>
                         </Row>

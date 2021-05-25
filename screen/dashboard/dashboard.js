@@ -4,11 +4,13 @@ import {Column as Col, Row} from 'react-native-flexbox-grid';
 
 // style
 import css from '../../style/styles';
+import Session from "../../app/session";
 
 export default class dashboard extends Component {
 
     constructor(props) {
         super(props);
+        this.session =  new Session();
         this.state = {
             katakunci: '',
             person: []
@@ -16,9 +18,19 @@ export default class dashboard extends Component {
     }
 
     // FUNCTION ============================
-    
-    logoutClick = () => {
-        // this.props.navigation.navigate('Signin');
+    async componentDidMount() {
+        var isLogin = null;
+        await this.session.cekSessionIsLogin().then(row => isLogin = row);
+        if(!isLogin)
+        {
+            this.props.navigation.navigate('login');
+        }
+        console.log("isLogin : " + isLogin);
+    }
+
+    logoutClick = async () => {
+        await this.session.clearSession();
+        this.props.navigation.navigate('login');
     }
 
     render() {
@@ -104,7 +116,27 @@ export default class dashboard extends Component {
                                     source={require('../../img/database.png')}
                                     style={styles.icon}
                                 />
-                                <Text style={styles.fontMenu}>SQL ite</Text>
+                                <Text style={styles.fontMenu}>SQLite</Text>
+                            </TouchableOpacity>
+                        </Col>
+
+                        <Col sm={4} style={{ alignItems: 'center', marginTop: 20 }}>
+                            <TouchableOpacity onPress={ () => this.props.navigation.navigate('gpspage')}>
+                                <Image
+                                    source={require('../../img/gps.png')}
+                                    style={styles.icon}
+                                />
+                                <Text style={styles.fontMenu}>GPS</Text>
+                            </TouchableOpacity>
+                        </Col>
+
+                        <Col sm={4} style={{ alignItems: 'center', marginTop: 20 }}>
+                            <TouchableOpacity onPress={ () => this.logoutClick()}>
+                                <Image
+                                    source={require('../../img/signout.png')}
+                                    style={styles.icon}
+                                />
+                                <Text style={styles.fontMenu}>Keluar</Text>
                             </TouchableOpacity>
                         </Col>
                     </Row>   
