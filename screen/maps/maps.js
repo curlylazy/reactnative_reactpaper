@@ -146,7 +146,7 @@ export default class maps extends Component {
                         </Col>
                     </Row>
                 </View>
-                <View style={{flex: 1}}>
+                <View style={styles.container}>
                     <MapView
                         provider={PROVIDER_GOOGLE} // remove if not using Google Maps
                         style={styles.map}
@@ -173,8 +173,7 @@ export default class maps extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        ...StyleSheet.absoluteFillObject,
-        height: 400,
+        height: '100%',
         width: 400,
         justifyContent: 'flex-end',
         alignItems: 'center',
