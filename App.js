@@ -40,7 +40,7 @@ function App() {
             <PaperProvider theme={theme}>
                 <NavigationContainer>
                     <Stack.Navigator
-                        initialRouteName="cekauth"
+                        initialRouteName="dashboard"
                         screenOptions={{
                             headerShown: false
                         }}
